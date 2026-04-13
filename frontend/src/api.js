@@ -1,4 +1,6 @@
-const API_BASE = "/api";
+const API_BASE = import.meta.env.DEV
+  ? "/api"
+  : (import.meta.env.VITE_API_BASE_URL || "https://ume-t5sh.onrender.com/api");
 
 async function parseResponse(response) {
   const contentType = response.headers.get("content-type") || "";
