@@ -67,10 +67,17 @@ textarea {
 .app-shell {
   position: relative;
   min-height: 100vh;
+  padding: 1rem;
+}
+
+.app-shell--auth {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   gap: 1.25rem;
-  padding: 1rem;
+}
+
+.app-shell--guest {
+  display: block;
 }
 
 .ambient {
@@ -216,20 +223,48 @@ textarea {
 .login-layout {
   position: relative;
   z-index: 1;
-  width: min(1200px, calc(100% - 2rem));
+  width: min(1180px, calc(100% - 2rem));
   min-height: 100vh;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 1.25rem 0;
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
 }
 
 .login-copy,
 .auth-card {
-  border-radius: 34px;
-  padding: 1.5rem;
+  border-radius: 30px;
+  padding: 1.6rem;
+}
+
+.login-copy {
+  min-height: 680px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    linear-gradient(145deg, rgba(21, 28, 31, 0.97) 0%, rgba(34, 44, 47, 0.94) 100%);
+  color: #f6f1ea;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 70px rgba(16, 32, 51, 0.16);
+}
+
+.login-copy-main {
+  display: grid;
+  gap: 1rem;
+}
+
+.login-copy h1 {
+  max-width: 8ch;
+  font-size: clamp(3rem, 5.6vw, 5.6rem);
+  line-height: 0.9;
+  color: #f8f2eb;
+}
+
+.login-copy .lead {
+  max-width: 34rem;
+  color: rgba(248, 242, 235, 0.76);
 }
 
 .lead {
@@ -243,16 +278,15 @@ textarea {
 }
 
 .accent-grid {
-  margin-top: 1.4rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
 }
 
-.accent-grid div {
+.accent-item {
   padding: 1rem;
-  border-radius: 22px;
-  background: rgba(16, 32, 51, 0.05);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .accent-grid strong,
@@ -264,12 +298,16 @@ textarea {
 .accent-grid span {
   display: block;
   margin-top: 0.35rem;
-  color: rgba(16, 32, 51, 0.62);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .auth-card {
   display: grid;
   gap: 1rem;
+  width: min(100%, 430px);
+  justify-self: center;
+  align-self: center;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .card-heading {
@@ -290,6 +328,11 @@ textarea {
 .error-copy {
   margin: 0;
   color: #9a2626;
+}
+
+.auth-card button[type="submit"] {
+  width: 100%;
+  padding-block: 0.9rem;
 }
 
 .hero-panel,
@@ -507,8 +550,7 @@ th {
 }
 
 @media (max-width: 1120px) {
-  .app-shell,
-  .login-layout,
+  .app-shell--auth,
   .workspace-grid,
   .workspace-grid.slim {
     grid-template-columns: 1fr;
@@ -525,6 +567,36 @@ th {
   .shortcut-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .login-layout {
+    width: min(980px, calc(100% - 2rem));
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    gap: 1rem;
+  }
+
+  .login-copy {
+    min-height: 600px;
+  }
+}
+
+@media (max-width: 920px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .login-copy {
+    min-height: auto;
+  }
+
+  .login-copy h1 {
+    max-width: 10ch;
+  }
+
+  .auth-card {
+    width: min(100%, 520px);
+    justify-self: stretch;
+  }
 }
 
 @media (max-width: 720px) {
@@ -532,6 +604,16 @@ th {
   .login-layout {
     width: 100%;
     padding: 0.75rem;
+  }
+
+  .login-copy,
+  .auth-card {
+    padding: 1.2rem;
+  }
+
+  .login-copy h1 {
+    max-width: none;
+    font-size: clamp(2.4rem, 12vw, 4rem);
   }
 
   .toolbar,

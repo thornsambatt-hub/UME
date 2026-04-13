@@ -66,7 +66,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="app-shell">
+  <div :class="['app-shell', { 'app-shell--auth': app.isAuthenticated.value, 'app-shell--guest': !app.isAuthenticated.value }]">
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
 
