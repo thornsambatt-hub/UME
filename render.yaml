@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: stock-management-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt && python backend/manage.py collectstatic --no-input
+    preDeployCommand: python backend/manage.py migrate
+    startCommand: gunicorn --chdir backend backend.wsgi:application
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: SECRET_KEY
+        generateValue: true
