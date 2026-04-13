@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 
-import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -90,12 +90,23 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
     raise ImproperlyConfigured("DATABASE_URL is required. Configure a PostgreSQL connection string.")
 
+parsed_database_url = urlparse(DATABASE_URL)
+database_query = parse_qs(parsed_database_url.query)
+
 DATABASES = {
-    'default': dj_database_url.parse(
-        DATABASE_URL,
-        conn_max_age=600,
-        ssl_require=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': parsed_database_url.path.lstrip('/'),
+        'USER': parsed_database_url.username,
+        'PASSWORD': parsed_database_url.password,
+        'HOST': parsed_database_url.hostname,
+        'PORT': parsed_database_url.port or 5432,
+        'CONN_MAX_AGE': 600,
+        'OPTIONS': {
+            'sslmode': database_query.get('sslmode', ['require'])[0],
+            'channel_binding': database_query.get('channel_binding', ['require'])[0],
+        },
+    }
 }
 
 
